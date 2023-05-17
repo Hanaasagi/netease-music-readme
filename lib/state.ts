@@ -17,8 +17,8 @@ export function setState(newState: SongInfo) {
   updateAt = Date.now();
 }
 
-export function getState(): SongInfo | null {
-  if (updateAt < Date.now() - 6 * 60 * 1000) {
+export function getState(allowOutdate: boolean): SongInfo | null {
+  if (!allowOutdate && Date.now() - updateAt > 6 * 60 * 1000) {
     return null;
   }
   return state;

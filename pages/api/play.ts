@@ -1,14 +1,22 @@
-import { setState, getState, SongInfo } from "@/lib/state";
-import { json } from "stream/consumers";
+import { setState, SongInfo } from "@/lib/state";
 import type { NextApiRequest, NextApiResponse } from "next";
 import process from "process";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.headers["x-auth"] !== process.env.X_AUTH) {
+    return res.status(400).json({});
+  }
+
   if (req.method === "POST") {
-    if (req.headers["X-AUTH"] !== process.env.X_AUTH) {
-      res.status(400).json({});
+    let data = req.body;
+    if (req.headers["content-type"] !== "application/json") {
+      try {
+        data = JSON.parse(req.body);
+      } catch (error) {
+        return res.status(400).json({});
+      }
     }
-    const data = JSON.parse(req.body);
+
     setState(
       new SongInfo(
         data.id,
@@ -20,5 +28,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       )
     );
   }
-  res.status(200).json({});
+  return res.status(200).json({});
 }

@@ -1,7 +1,8 @@
-export function generateMusicRecordSvg(songName: string, albumUrl: string) {
+export function generateMusicRecordSvg(songName: string, albumData: string) {
   return `
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
       width="200"
       height="200"
       viewBox="0 0 200 200"
@@ -41,13 +42,26 @@ export function generateMusicRecordSvg(songName: string, albumUrl: string) {
         repeatCount="indefinite"
       />
       <image
-        href="${albumUrl}"
+        xlink:href="data:image/gif;base64,${albumData}"
         x="30"
         y="30"
         width="140"
         height="140"
         clip-path="url(#circle-clip)"
       />
+    </svg>
+    `;
+}
+
+export function generateEmptySvg() {
+  return `
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      width="200"
+      height="200"
+      viewBox="0 0 200 200"
+    >
     </svg>
     `;
 }
