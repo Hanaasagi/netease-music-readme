@@ -6,7 +6,7 @@ export class SongInfo {
     public albumId: number,
     public picUrl: string,
     public songUrl: string
-  ) {}
+  ) { }
 }
 
 var state: SongInfo | null = null;
@@ -22,4 +22,8 @@ export function getState(allowOutdate: boolean): SongInfo | null {
     return null;
   }
   return state;
+}
+
+export function debugState(): [SongInfo | null, number] {
+  return [state, updateAt];
 }
